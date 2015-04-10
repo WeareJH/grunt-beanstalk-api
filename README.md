@@ -1,4 +1,4 @@
-##MGrunt Beanstalk API
+##Grunt Beanstalk API [![Build Status](https://travis-ci.org/WeareJH/grunt-beanstalk-api.svg?branch=master)](https://travis-ci.org/WeareJH/grunt-beanstalk-api)
 
 *Example*
 
