@@ -1,0 +1,474 @@
+/*================================================================================
+Mixins
+================================================================================*/
+
+/*========================================
+Utilities
+========================================*/
+
+/**
+ * Output hover rules
+ *
+   `@include hover();`
+ *
+ */
+@mixin hover {
+    &:hover,
+    &:focus {
+        @content;
+    }
+}
+
+
+/**
+ * Output clearfix rules
+ *
+   `@include clearfix();`
+ *
+ */
+@mixin clearfix {
+    &:before,
+    &:after {
+        content: "";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+    zoom: 1;
+}
+
+
+/**
+ * Output media query block
+ *
+   `@include media-query(min, 640px);`
+ *
+ */
+@mixin media-query($type, $breakpoint: $lap-start) {
+    @if $type == "min" {
+        @media only screen and (min-width: $breakpoint) { @content }
+    }
+    @else if $type == "max" {
+        @media only screen and (max-width: $breakpoint - 1px) { @content }
+    }
+    @else if $type == "palm" {
+        @media only screen and (max-width: $lap-start - 1px) { @content }
+    }
+    @else if $type == "lap" {
+        @media only screen and (min-width: $lap-start) and (max-width: $desk-start - 1px) { @content }
+    }
+    @else if $type == "desk" {
+        @media only screen and (min-width: $desk-start) { @content }
+    }
+    @else if $type == "wide" {
+        @media only screen and (min-width: $wide-start) { @content }
+    }
+    @else if $type == "retina" {
+        @media
+        only screen and (-webkit-min-device-pixel-ratio: 2),
+        only screen and (   min--moz-device-pixel-ratio: 2),
+        only screen and (     -o-min-device-pixel-ratio: 2/1),
+        only screen and (        min-device-pixel-ratio: 2),
+        only screen and (                min-resolution: 192dpi),
+        only screen and (                min-resolution: 2dppx) { @content }
+    }
+}
+
+
+/**
+ * Output media query block with min and max limits
+ *
+   `@include media-query-bracket(640px, 960px);`
+ *
+ */
+@mixin media-query-bracket($from: 0, $to: 0) {
+    @if $to > $from {
+        @media only screen and (min-width: $from) and (max-width: $to - 1px) { @content }
+    }
+}
+
+
+/**
+ * Output rule for offscreen image replacement
+ *
+   `@include offscreen();`
+ *
+ */
+@mixin offscreen() {
+    text-indent: -9999px;
+    overflow: hidden;
+    text-decoration: none;
+    display: block;
+    font-size: 0;
+    text-align: start;
+}
+
+
+/**
+ * Hide from both screenreaders and browsers: h5bp.com/u
+ *
+   `@include hidden();`
+ *
+ */
+@mixin hidden {
+    display: none !important;
+    visibility: hidden;
+}
+
+
+/**
+ * Hide only visually, but have it available for screenreaders: h5bp.com/v
+ *
+   `@include visuallyhidden();`
+ *
+ */
+@mixin visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+
+/**
+ * Prevent text selection (for buttons, toggles, etc) https://developer.mozilla.org/en-US/docs/Web/CSS/user-select
+ *
+   `@include unselectable();`
+ *
+ */
+@mixin unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+/**
+ * Output color using rgba and rgb fallback
+ *
+   `@include alpha(border-color, rgba(black,0.1), white);`
+ *
+ */
+@mixin alpha($attribute, $color, $background) {
+    $percent: alpha($color) * 100%;
+    $opaque: opacify($color, 1);
+    $solid-color: mix($opaque, $background, $percent);
+    #{$attribute}: $solid-color;
+    #{$attribute}: $color;
+}
+
+/*========================================
+Styling
+========================================*/
+
+/**
+ * Output font size using rem and px fallback
+ *
+   `@include font-size(10px);`
+ *
+ */
+@mixin font-size($font-size){
+    font-size:  $font-size;
+    font-size: ($font-size / $base-font-size)*1rem;
+    // line-height: ceil($font-size / $base-line-height) * ($base-line-height / $font-size);
+}
+
+
+/**
+ * Output base font properties
+ *
+   `@include font-reset();`
+ *
+ */
+@mixin font-reset(){
+    @include font-size($base-font-size);
+    line-height: $base-line-height;
+    font-family: $base-font-family;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+
+/**
+ * Output uppercase with some letter spacing
+ *
+   `@include uppercase(0.1em);`
+ *
+ */
+@mixin uppercase($spacing: $uppercase-spacing){
+    text-transform: uppercase;
+    letter-spacing: $spacing;
+}
+
+
+/**
+ * Reset text casing
+ *
+   `@include reset-case();`
+ *
+ */
+@mixin case-reset(){
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+
+/**
+ * Output unstyled list properties
+ *
+   `@include list-reset();`
+ *
+ */
+@mixin list-reset(){
+    margin-left: 0;
+    list-style: none;
+}
+
+
+/*========================================
+Review and remove
+========================================*/
+
+
+/**
+ * Output light font
+ *
+   `@include font-light();`
+ *
+ */
+@mixin font-light(){
+    font-family: $sans;
+    font-weight: normal;
+}
+
+/**
+ * Output bold font
+ *
+   `@include font-bold();`
+ *
+ */
+@mixin font-bold(){
+    font-family: $sans-bold;
+    font-weight: normal;
+     -webkit-font-smoothing: antialiased;
+}
+
+/**
+ * Output black font
+ *
+   `@include font-black();`
+ *
+ */
+@mixin font-black(){
+    font-family: $sans-black;
+    font-weight: normal;
+    // -webkit-font-smoothing: antialiased;
+}
+
+/**
+ * Create a smooth scroll experience
+ *
+   `@include smooth-scroll();`
+ *
+ */
+@mixin smooth-scroll(){
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+@mixin font-smooth(){
+    -webkit-font-smoothing: antialiased;
+}
+
+@mixin display($type){
+     @if $type == "inlineblock" {
+        display: inline-block;
+    }@else if $type == "none" {
+        display: none;
+        speak: none;
+    }
+}
+
+@mixin caret ($color: $white) {
+    content: " ";
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid $color;
+    border-bottom: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@mixin caret-invert ($color: $white) {
+    content: " ";
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid $color;
+    border-top: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+
+@mixin opacity($amount: 50) {
+    @if $amount == 100 {
+        opacity: 1;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    }
+    @else {
+        opacity: $amount / 100;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$amount})";
+    }
+}
+
+@mixin control-styles () {
+
+    position: absolute;
+    top:   0;
+    right: 0;
+    background: $white;
+    border: 1px solid $blue-tint80;
+    padding: $half-spacing/1.5;
+    cursor: pointer;
+    transition: background .3s;
+    z-index: 1;
+    .no-touch & {
+
+        &:hover {
+            background: $blue-tint95;
+        }
+
+    }
+}
+
+@mixin lightbox-callout {
+    padding: $base-spacing;
+    background: $blue-tint95;
+    border-top: 1px solid $blue-tint80;
+    border-bottom: 1px solid $blue-tint80;
+    min-height: 50px + $base-spacing;
+    margin-bottom: $base-spacing;
+}
+
+@mixin layer-nav {
+
+    @extend .nav--stacked;
+
+    li, a {
+        display: block;
+    }
+
+    li {
+
+        position: relative;
+
+        &:hover {
+            &:before {
+                left: $half-spacing/1.5;
+            }
+        }
+    }
+
+    a {
+        padding: $half-spacing - 1px;
+        text-decoration: none;
+        border-bottom: 1px solid $blue-tint80;
+        color: $black;
+
+        // &:hover {
+        //     background: $blue-tint95;
+        // }
+    }
+}
+
+@mixin nav-icons() {
+
+    > li {
+        position: relative;
+        &:before {
+            transition: all .1s;
+            pointer-events: none;
+            position: absolute;
+            top: $half-spacing - 2px;
+            left: $half-spacing/2;
+            content: " ";
+            @include sprite-bg;
+            @include icon-keyboard_arrow_right-grey-24;
+        }
+        > a {
+            padding-left: $base-spacing*1.5;
+        }
+    }
+}
+
+
+@mixin custom-select-mini {
+    &:after {
+        top: $base-spacing;
+    }
+    &:before {
+        top: $half-spacing;
+    }
+    select {
+        @include font-size(14px);;
+        height: 34px;
+    }
+}
+
+@mixin vertical-align {
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+@mixin before-leave {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+
+    &.leaving {
+        transform: translateY(-10px);
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity ease-in-out 0.2s, visibility ease-in-out 0.2s, transform ease-in-out .2s;
+    }
+}
+
+@mixin accordion-header {
+    display: block;
+    position: relative;
+    padding: $half-spacing;
+    // height: 40px;
+    background: $blue;
+    color: $white;
+    @include font-bold;
+    @include font-size($base-font-size);
+    line-height: $base-spacing;
+    text-transform: none;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: $half-spacing;
+        margin-top: -3px;
+        opacity: 0.5;
+        @include caret($white);
+    }
+}

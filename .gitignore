@@ -1,0 +1,8 @@
+.coveralls.yml
+.idea
+npm-debug.log
+npm-log*
+node_modules
+/test/
+/src/test
+creds.json
