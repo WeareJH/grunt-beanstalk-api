@@ -16,7 +16,10 @@ module.exports = function (grunt) {
                     'public/assets/scss/modules/_mixins.scss'
                 ],
                 revision: '1.0.0',
-                outDir:   './'
+                outDir:   './public/shane',
+                transformPath: function (path) {
+                    return path.split('/').slice(1).join('/');
+                }
             }
         }
     });
