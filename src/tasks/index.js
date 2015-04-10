@@ -27,7 +27,7 @@ module.exports = function (grunt) {
              */
             let args = objectAssign({}, {org: org}, options, task.data);
 
-            grunt.log.ok("Connecting to the Beanstalk API...".yellow.bold);
+            grunt.log.ok('Connecting to the Beanstalk API...'.yellow.bold);
 
             /**
              * Log files that will be requested
@@ -76,7 +76,7 @@ module.exports = function (grunt) {
          * @param path
          */
         function logOne(path) {
-            grunt.verbose.ok("Getting " + path);
+            grunt.verbose.ok('Getting ' + path);
         }
 
         /**
@@ -84,7 +84,7 @@ module.exports = function (grunt) {
          * @param file
          */
         function writeOne (file) {
-            grunt.log.ok("Writing file: ".green + file.data.path);
+            grunt.log.ok('Writing file: '.green + file.data.path);
             grunt.file.write(
                 path.join(file.outDir, file.data.path),
                 file.data.contents

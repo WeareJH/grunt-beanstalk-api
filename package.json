@@ -2,7 +2,7 @@
   "name": "grunt-beanstalk-api",
   "version": "1.0.0",
   "description": "Simple beanstalk api interface",
-  "main": "lib/index.js",
+  "main": "tasks/index.js",
   "directories": {
     "test": "test"
   },
