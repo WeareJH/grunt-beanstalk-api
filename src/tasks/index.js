@@ -84,14 +84,15 @@ module.exports = function (grunt) {
          * @param file
          */
         function writeOne (file) {
-            grunt.log.ok('Writing file: '.green + file.data.path);
 
             if (task.data.transformPath) {
                 file.data.path = task.data.transformPath(file.data.path);
             }
 
+            let outfile = path.join(file.outDir, file.data.path);
+            grunt.log.ok('Writing file: '.green + outfile);
             grunt.file.write(
-                path.join(file.outDir, file.data.path),
+                outfile,
                 file.data.contents
             );
         }
